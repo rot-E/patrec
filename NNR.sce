@@ -22,7 +22,7 @@ function n = number(prots, p)
     n = -1;
     mind = %inf;
 
-    for i = 1 : DATA_NUM_PER_CLASS
+    for i = 1 : CLASS_NUM
         x = prots(i, 1) - p(1, 1);
         y = prots(i, 2) - p(1, 2);
         d = sqrt(x^2 + y^2);
@@ -43,7 +43,7 @@ prots(1, 2) = 0;
 for i = 1 : CLASS_NUM
     // クラス毎に処理
     dbegin = DATA_NUM_PER_CLASS * (i - 1) + 1;
-    dend = DATA_NUM_PER_CLASS * i;
+    dend = DATA_NUM_PER_CLASS * i - 1;
     class = feats(dbegin:dend, :);
 
     // プロトタイプ算出

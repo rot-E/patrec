@@ -17,7 +17,7 @@ function i = argmaxP(feats, data)
     for k = 1 : CLASS_NUM
         // クラス毎に処理
         dbegin = DATA_NUM_PER_CLASS * (k - 1) + 1;
-        dend = DATA_NUM_PER_CLASS * k;
+        dend = DATA_NUM_PER_CLASS * k - 1;
         class = feats(dbegin:dend, :);
 
         // 平均算出
