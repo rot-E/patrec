@@ -64,4 +64,4 @@ for i = 1 : CLASS_NUM
         disp('Data ' + string(k) + ' is ' + string(res));
         end
 end
-disp(((CLASS_NUM * (DATA_NUM_PER_CLASS - EVAL_SET_NUM)) - cnt) / DATA_NUM);
+disp(((CLASS_NUM * (DATA_NUM_PER_CLASS - EVAL_SET_NUM)) - cnt) / (CLASS_NUM * (DATA_NUM_PER_CLASS - EVAL_SET_NUM)));
