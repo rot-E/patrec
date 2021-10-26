@@ -17,15 +17,13 @@ function i = argmaxP(feats, c, data)
     for k = 1 : CLASS_NUM
         // クラス毎に処理
         dbegin = DATA_NUM_PER_CLASS * (k - 1) + 1;
-        dend = DATA_NUM_PER_CLASS * k - 1;
+        dend = DATA_NUM_PER_CLASS * k;
         class = feats(dbegin:dend, :);
         if c == dbegin
             dbegin = DATA_NUM_PER_CLASS * (k - 1) + 2;
             class = feats(dbegin:dend, :);
         elseif c > dbegin && c < dend
-            dbegin = DATA_NUM_PER_CLASS * (k - 1) + 1;
             class = feats(dbegin:c-1, :);
-            dend = DATA_NUM_PER_CLASS * k - 1;
             class = cat(1, class, feats(c+1:dend, :));
         elseif c == dend
             dend = DATA_NUM_PER_CLASS * k - 2;
@@ -59,7 +57,16 @@ feats = strtod(read_csv('feat.csv', ','));
 feats = feats(:, [FEAT_1, FEAT_2]);
 
 // 全データ評価
-for i = 1 : DATA_NUM
-    data = feats(i, :);
-    disp('Data ' + string(i) + ' is ' + string(argmaxP(feats, i, data)));
+cnt = 0;
+for i = 1 : CLASS_NUM
+    for j = 1 : DATA_NUM_PER_CLASS
+        k = DATA_NUM_PER_CLASS * (i - 1) + j;
+        data = feats(k, :);
+        res = argmaxP(feats, k, data);
+        if res ~= i - 1
+            cnt = cnt + 1;
+        end
+        disp('Data ' + string(k) + ' is ' + string(res));
+     end
 end
+disp((DATA_NUM - cnt) / DATA_NUM);

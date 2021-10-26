@@ -18,7 +18,7 @@ function i = argmaxP(feats, data)
     for k = 1 : CLASS_NUM
         // クラス毎に処理
         dbegin = DATA_NUM_PER_CLASS * (k - 1) + 1;
-        dend = DATA_NUM_PER_CLASS * k - 1 - EVAL_SET_NUM;
+        dend = DATA_NUM_PER_CLASS * k - EVAL_SET_NUM;
         class = feats(dbegin:dend, :);
 
         // 平均算出
@@ -48,10 +48,16 @@ feats = strtod(read_csv('feat.csv', ','));
 feats = feats(:, [FEAT_1, FEAT_2]);
 
 // 評価用データ評価
-for j = 1 : CLASS_NUM
-    for k = DATA_NUM_PER_CLASS - EVAL_SET_NUM + 1 : DATA_NUM_PER_CLASS
-        i = k + 10 * (j - 1);
-        data = feats(i, :);
-        disp('Data ' + string(i) + ' is ' + string(argmaxP(feats, data)));
-    end
+cnt = 0;
+for i = 1 : CLASS_NUM
+    for j = DATA_NUM_PER_CLASS - EVAL_SET_NUM : DATA_NUM_PER_CLASS
+        k = DATA_NUM_PER_CLASS * (i - 1) + j;
+        data = feats(k, :);
+        res = argmaxP(feats, data);
+        if res ~= i - 1
+            cnt = cnt + 1;
+        end
+        disp('Data ' + string(i) + ' is ' + string(res));
+     end
 end
+disp((DATA_NUM - cnt) / DATA_NUM);

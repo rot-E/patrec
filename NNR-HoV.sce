@@ -40,7 +40,7 @@ prots(1, 2) = 0;
 for i = 1 : CLASS_NUM
     //学習用クラス毎に処理
     dbegin = DATA_NUM_PER_CLASS * (i - 1) + 1;
-    dend = DATA_NUM_PER_CLASS * i - 1;
+    dend = DATA_NUM_PER_CLASS * i;
     class = feats(dbegin:dend, :);
 
     // プロトタイプ算出
@@ -52,10 +52,16 @@ for i = 1 : CLASS_NUM
 end
 
 // 評価用データ評価
-for j = 1 : CLASS_NUM
-    for k = DATA_NUM_PER_CLASS - EVAL_SET_NUM + 1 : DATA_NUM_PER_CLASS
-        i = k + 10 * (j - 1) - 1;
-        data = feats(i, :);
-        disp('Data ' + string(i) + ' is ' + string(number(prots, data)));
-    end
+cnt = 0;
+for i = 1 : CLASS_NUM
+    for j = DATA_NUM_PER_CLASS - EVAL_SET_NUM : DATA_NUM_PER_CLASS
+        k = DATA_NUM_PER_CLASS * (i - 1) + j;
+        data = feats(k, :);
+        res = number(prots, data);
+        if res ~= i - 1
+            cnt = cnt + 1;
+        end
+        disp('Data ' + string(k) + ' is ' + string(res));
+        end
 end
+disp(((CLASS_NUM * (DATA_NUM_PER_CLASS - EVAL_SET_NUM)) - cnt) / DATA_NUM);
